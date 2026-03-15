@@ -1,0 +1,17 @@
+CREATE TABLE bank (
+    bankname VARCHAR(50),
+    headoffice VARCHAR(50),
+    branch VARCHAR(50),
+    branchcode INT PRIMARY KEY
+);
+INSERT INTO bank VALUES ('SIB', 'Andhra pradesh', 'Pala', 201);
+INSERT INTO bank VALUES ('Axis', 'Delhi', 'Kollam', 202);
+INSERT INTO bank VALUES ('Federal', 'Maharashtra', 'Kottayam', 203);
+COMMIT;
+INSERT INTO bank VALUES ('HDFC', 'Coimbature', 'Trivandrum', 204);
+SAVEPOINT bank_save;
+INSERT INTO bank VALUES ('Canara', 'Tamil Nadu', 'Malapuram', 205);
+ROLLBACK TO bank_save;
+SELECT * FROM bank;
+GRANT SELECT, INSERT ON bank TO user1;
+REVOKE INSERT ON bank FROM user1;
