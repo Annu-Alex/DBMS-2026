@@ -1,0 +1,45 @@
+CREATE TABLE Bank (
+    bankcode VARCHAR(3) PRIMARY KEY,
+    bankname VARCHAR(50) NOT NULL,
+    headoffice VARCHAR(50),
+    branches INT CHECK (branches > 0)
+);
+INSERT INTO Bank VALUES ('B01', 'SBI', 'Ernakulam', 120);
+INSERT INTO Bank VALUES ('B02', 'HDFC', 'Kottayam', 80);
+INSERT INTO Bank VALUES ('B03', 'ICICI', 'Ernakulam', 60);
+INSERT INTO Bank VALUES ('B04', 'Axis', 'Trivandrum', 40);
+INSERT INTO Bank VALUES ('B05', 'Federal', 'Aluva', 70);
+CREATE TABLE Branch (
+    branchid INT PRIMARY KEY,
+    branchname VARCHAR(50) DEFAULT 'New Delhi',
+    bankid VARCHAR(3),
+    FOREIGN KEY (bankid) REFERENCES Bank(bankcode)
+);
+ INSERT INTO Branch VALUES (1, 'Kottayam', 'B01');
+INSERT INTO Branch VALUES (2, 'Ernakulam', 'B02');
+INSERT INTO Branch VALUES (3, 'Kottayam', 'B03');
+INSERT INTO Branch VALUES (4, DEFAULT, 'B04');
+INSERT INTO Branch VALUES (5, 'Kottayam', 'B05');
+CREATE VIEW bank_head_office AS
+SELECT * FROM Bank
+WHERE headoffice = 'Ernakulam';
+CREATE VIEW bank_branch AS
+SELECT DISTINCT b.*
+FROM Bank b
+JOIN Branch br ON b.bankcode = br.bankid
+WHERE br.branchname = 'Kottayam';
+CREATE VIEW bank_more_50 AS
+SELECT * FROM Bank
+WHERE branches > 50;
+CREATE VIEW bank_branch_details AS
+SELECT b.bankname, br.branchname
+FROM Bank b
+JOIN Branch br ON b.bankcode = br.bankid;
+CREATE VIEW bank_outside_ekm AS
+SELECT * FROM Bank
+WHERE headoffice <> 'Ernakulam';
+SELECT * FROM bank_head_office;
+SELECT * FROM bank_branch;
+SELECT * FROM bank_more_50;
+SELECT * FROM bank_branch_details;
+SELECT * FROM bank_outside_ekm;
